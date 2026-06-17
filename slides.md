@@ -11,6 +11,8 @@ drawings:
 transition: slide-left
 mdc: true
 duration: 35min
+# hash routing evita 404 e duplicação do base path em hosting de subpasta (GitHub Pages)
+routerMode: hash
 ---
 
 # Observabilidade com Grafana
