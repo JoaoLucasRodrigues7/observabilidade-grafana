@@ -19,10 +19,12 @@ routerMode: hash
 
 Métricas · Logs · Traces — a stack **LGTM**
 
-<div class="mt-8 flex justify-center gap-3 text-4xl opacity-90">
-  <span class="i-logos-grafana" title="Grafana" />
-  <span class="i-logos-prometheus" title="Prometheus" />
-  <span class="i-logos-loki" title="Loki" />
+<div class="mt-8 flex justify-center items-center gap-8 opacity-90">
+  <SvcIcon name="grafana" class="h-14" />
+  <SvcIcon name="prometheus" class="h-14" />
+  <SvcIcon name="loki" class="h-14" />
+  <SvcIcon name="tempo" class="h-14" />
+  <SvcIcon name="mimir" class="h-14" />
 </div>
 
 <div @click="$slidev.nav.next" class="mt-12 py-1 cursor-pointer" hover:bg="white op-10">
@@ -142,23 +144,23 @@ layout: center
 
 <div class="grid grid-cols-4 gap-5">
   <div v-click class="rounded-xl border-2 border-teal-400/50 bg-teal-400/5 p-5 text-center">
-    <div class="text-4xl font-black text-teal-400">L</div>
-    <div class="text-xl font-bold mt-1">Loki</div>
+    <SvcIcon name="loki" class="h-12 mx-auto" />
+    <div class="text-xl font-bold mt-2">Loki</div>
     <div class="text-xs opacity-70 mt-2">Agregação de <b>logs</b>. "Prometheus para logs".</div>
   </div>
   <div v-click class="rounded-xl border-2 border-orange-400/50 bg-orange-400/5 p-5 text-center">
-    <div class="text-4xl font-black text-orange-400">G</div>
-    <div class="text-xl font-bold mt-1">Grafana</div>
+    <SvcIcon name="grafana" class="h-12 mx-auto" />
+    <div class="text-xl font-bold mt-2">Grafana</div>
     <div class="text-xs opacity-70 mt-2">Visualização e <b>dashboards</b>.</div>
   </div>
   <div v-click class="rounded-xl border-2 border-purple-400/50 bg-purple-400/5 p-5 text-center">
-    <div class="text-4xl font-black text-purple-400">T</div>
-    <div class="text-xl font-bold mt-1">Tempo</div>
+    <SvcIcon name="tempo" class="h-12 mx-auto" />
+    <div class="text-xl font-bold mt-2">Tempo</div>
     <div class="text-xs opacity-70 mt-2">Backend de <b>tracing</b> distribuído.</div>
   </div>
   <div v-click class="rounded-xl border-2 border-blue-400/50 bg-blue-400/5 p-5 text-center">
-    <div class="text-4xl font-black text-blue-400">M</div>
-    <div class="text-xl font-bold mt-1">Mimir</div>
+    <SvcIcon name="mimir" class="h-12 mx-auto" />
+    <div class="text-xl font-bold mt-2">Mimir</div>
     <div class="text-xs opacity-70 mt-2"><b>Métricas</b> em escala (compatível com Prometheus).</div>
   </div>
 </div>
@@ -187,7 +189,7 @@ layout: default
 layout: section
 ---
 
-# 📈 Prometheus
+# <SvcIcon name="prometheus" class="h-12 inline-block align-middle mr-2" /> Prometheus
 ### Métricas — séries temporais
 
 ---
@@ -251,7 +253,7 @@ Quatro métricas, quatro perguntas: <b>tráfego</b>, <b>saturação</b>, <b>lat�
 layout: section
 ---
 
-# 🪵 Loki
+# <SvcIcon name="loki" class="h-12 inline-block align-middle mr-2" /> Loki
 ### Logs — agregação eficiente
 
 ---
@@ -334,7 +336,7 @@ basta colar aqui dentro do bloco ```ansi``` ou substituir o array SOURCE em comp
 layout: section
 ---
 
-# 🔗 Tempo
+# <SvcIcon name="tempo" class="h-12 inline-block align-middle mr-2" /> Tempo
 ### Traces — o caminho da requisição
 
 ---
