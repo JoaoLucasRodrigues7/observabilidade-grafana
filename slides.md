@@ -63,8 +63,8 @@ class: text-center
 
 # O que é Observabilidade?
 
-<div class="text-xl opacity-80 mb-10">
-A capacidade de <span v-mark.orange="1">entender o estado interno</span> de um sistema apenas observando suas <span v-mark.underline.cyan="2">saídas externas</span>.
+<div class="text-lg opacity-80 mb-10 whitespace-nowrap">
+A capacidade de <span v-mark.orange="1">entender o estado interno</span> de um sistema com base em suas <span v-mark.underline.cyan="2">saídas externas</span>.
 </div>
 
 <div class="grid grid-cols-3 gap-6 mt-4">
@@ -100,15 +100,15 @@ layoutClass: gap-12
 
 <v-clicks>
 
-- 🎨 **Plataforma open-source** de visualização e análise de dados operacionais.
+- **Plataforma open-source** de visualização e análise de dados operacionais — [código-fonte](https://github.com/grafana/grafana).
 
-- 🔌 **Agnóstico de fonte de dados** — conecta em Prometheus, Loki, Tempo, Elastic, SQL, CloudWatch, e +150 datasources.
+- **Agnóstico de fonte de dados** — conecta em Prometheus, Loki, Tempo, Elastic, SQL, CloudWatch, e +150 datasources.
 
-- 📊 **Dashboards** ricos e interativos — uma única tela de vidro ("single pane of glass").
+- **Dashboards** ricos e interativos — uma única tela de vidro ("single pane of glass").
 
-- 🚨 **Alertas** unificados sobre qualquer fonte de dados.
+- **Alertas** unificados sobre qualquer fonte de dados.
 
-- 🧩 **A empresa Grafana Labs** mantém uma stack completa: a **LGTM**.
+- **A empresa Grafana Labs** mantém uma stack completa: a **LGTM**.
 
 </v-clicks>
 
@@ -199,15 +199,22 @@ layout: section
 <div class="grid grid-cols-2 gap-8">
 <div>
 
-<v-clicks>
+<div class="space-y-2.5 text-[15px]">
 
-- 🕐 Banco de dados de **séries temporais** (TSDB).
-- 🔄 Modelo **pull**: o Prometheus *raspa* (`scrape`) endpoints `/metrics`.
-- 🏷️ Cada série = nome da métrica + **labels** (dimensões).
-- 🔢 4 tipos: **Counter**, **Gauge**, **Histogram**, **Summary**.
-- 🧮 Linguagem de consulta poderosa: **PromQL**.
+<div v-click>Banco de dados de <b>séries temporais</b> (TSDB).</div>
+<div v-click class="ml-3 border-l-2 border-orange-400/40 pl-3 text-xs opacity-70">
+Sequência de medições registradas ao longo do tempo — cada ponto é um par <b>(instante, valor)</b>.
+</div>
 
-</v-clicks>
+<div v-click>Modelo <b>pull</b>: o Prometheus <i>raspa</i> (<code>scrape</code>) endpoints <code>/metrics</code>.</div>
+<div v-click class="ml-3 border-l-2 border-orange-400/40 pl-3 text-xs opacity-70">
+<b>Raspar</b> = buscar ativamente: o Prometheus faz requisições HTTP periódicas aos alvos para coletar as métricas.
+</div>
+
+<div v-click>Cada série = nome da métrica + <b>labels</b> (dimensões).</div>
+<div v-click>Linguagem de consulta poderosa: <b>PromQL</b>.</div>
+
+</div>
 
 <div v-click class="mt-4 rounded-lg bg-black/30 p-3 font-mono text-xs">
 http_requests_total<span class="opacity-50">{</span><span class="text-orange-400">method</span>="GET", <span class="text-orange-400">status</span>="200"<span class="opacity-50">}</span> <span class="text-teal-400">1849</span>
@@ -234,6 +241,66 @@ sum(rate(http_requests_total[5m]))
 
 ---
 
+# Os 4 tipos de métrica
+
+<div class="text-sm opacity-70 mb-5 -mt-1">Counter & Gauge — os dois tipos escalares fundamentais</div>
+
+<div class="grid grid-cols-2 gap-6">
+
+<div v-click class="rounded-xl border border-orange-400/40 bg-orange-400/5 p-5">
+  <div class="flex items-center justify-between">
+    <span class="text-xl font-bold text-orange-400">Counter</span>
+    <span class="text-xs opacity-60">só aumenta ↗</span>
+  </div>
+  <MetricType type="counter" class="my-3" />
+  <div class="text-sm opacity-80">Valor <b>cumulativo</b> que só cresce (ou zera no restart). Use <code>rate()</code> para ver a taxa.</div>
+  <div class="mt-2 font-mono text-xs opacity-70">ex.: http_requests_total, errors_total</div>
+</div>
+
+<div v-click class="rounded-xl border border-teal-400/40 bg-teal-400/5 p-5">
+  <div class="flex items-center justify-between">
+    <span class="text-xl font-bold text-teal-400">Gauge</span>
+    <span class="text-xs opacity-60">sobe e desce ↕</span>
+  </div>
+  <MetricType type="gauge" class="my-3" />
+  <div class="text-sm opacity-80">Valor <b>instantâneo</b> que varia livremente para cima e para baixo.</div>
+  <div class="mt-2 font-mono text-xs opacity-70">ex.: memory_usage_bytes, temperature, queue_size</div>
+</div>
+
+</div>
+
+---
+
+# Os 4 tipos de métrica
+
+<div class="text-sm opacity-70 mb-5 -mt-1">Histogram & Summary — para medir distribuições (ex.: latência)</div>
+
+<div class="grid grid-cols-2 gap-6">
+
+<div v-click class="rounded-xl border border-purple-400/40 bg-purple-400/5 p-5">
+  <div class="flex items-center justify-between">
+    <span class="text-xl font-bold text-purple-400">Histogram</span>
+    <span class="text-xs opacity-60">buckets ▮▮▮</span>
+  </div>
+  <MetricType type="histogram" class="my-3" />
+  <div class="text-sm opacity-80">Conta observações em <b>faixas (buckets)</b>. Quantis calculados <b>no servidor</b> via <code>histogram_quantile()</code> — agregável entre instâncias.</div>
+  <div class="mt-2 font-mono text-xs opacity-70">ex.: http_request_duration_seconds_bucket</div>
+</div>
+
+<div v-click class="rounded-xl border border-blue-400/40 bg-blue-400/5 p-5">
+  <div class="flex items-center justify-between">
+    <span class="text-xl font-bold text-blue-400">Summary</span>
+    <span class="text-xs opacity-60">quantis p50/p90/p99</span>
+  </div>
+  <MetricType type="summary" class="my-3" />
+  <div class="text-sm opacity-80">Calcula os <b>quantis no cliente</b>. Mais preciso por instância, porém <b>não agregável</b> entre instâncias.</div>
+  <div class="mt-2 font-mono text-xs opacity-70">ex.: rpc_duration_seconds{quantile="0.99"}</div>
+</div>
+
+</div>
+
+---
+
 # Métricas em ação
 
 <div class="text-sm opacity-70 mb-4">Séries temporais atualizando em tempo real — é isso que um painel do Grafana mostra.</div>
@@ -245,7 +312,7 @@ sum(rate(http_requests_total[5m]))
   <MetricChart label="go_memstats_heap_inuse_bytes" unit="MB" color="#3b82f6" :volatility="0.08" />
 </div>
 
-<div v-click class="mt-3 text-center text-xs opacity-60">
+<div class="mt-3 text-center text-xs opacity-60">
 Quatro métricas, quatro perguntas: <b>tráfego</b>, <b>saturação</b>, <b>latência</b> e <b>uso de recursos</b> — os "RED" e "USE".
 </div>
 
@@ -265,11 +332,11 @@ layout: section
 
 <v-clicks>
 
-- 📦 Inspirado no Prometheus: **indexa apenas labels**, não o conteúdo.
-- 💰 Muito mais **barato** que indexar texto completo (ex.: Elastic).
-- 🏷️ Mesmo modelo de labels: `{job="checkout-api", level="error"}`.
-- 🔍 Consulta com **LogQL** — filtros + extração + agregação.
-- 🔗 Logs carregam o **traceID** → ponte direta para o Tempo.
+- Inspirado no Prometheus: **indexa apenas labels**, não o conteúdo.
+- Muito mais **barato** que indexar texto completo (ex.: Elastic).
+- Mesmo modelo de labels: `{job="checkout-api", level="error"}`.
+- Consulta com **LogQL** — filtros + extração + agregação.
+- Logs carregam o **traceID** → ponte direta para o Tempo.
 
 </v-clicks>
 
@@ -289,7 +356,7 @@ layout: section
 
 <LogStream />
 
-<div v-click class="text-center text-xs opacity-60 mt-3">
+<div class="text-center text-xs opacity-60 mt-3">
 Stream ao vivo do label <code>{job="checkout-api"}</code>
 </div>
 
@@ -348,29 +415,33 @@ layout: section
 
 <v-clicks>
 
-- 🧵 Um **trace** é a jornada de uma requisição por vários serviços.
-- 🔹 Cada etapa é um **span** (com início, duração e relação pai/filho).
-- 🆔 Tudo amarrado por um **traceID** único.
-- 📥 Ingestão via **OpenTelemetry (OTLP)**, Jaeger, Zipkin.
-- 🎯 Responde: *"onde foi gasto o tempo?"* e *"qual serviço falhou?"*
+- Um **trace** é a jornada de uma requisição por vários serviços.
+- Cada etapa é um **span** (com início, duração e relação pai/filho).
+- Tudo amarrado por um **traceID** único.
+- Ingestão via **OpenTelemetry (OTLP)**, Jaeger, Zipkin.
+- Responde: *"onde foi gasto o tempo?"* e *"qual serviço falhou?"*
 
 </v-clicks>
 
-<div v-click class="mt-4 rounded-lg bg-black/30 p-3 font-mono text-xs leading-relaxed">
+<div v-click class="mt-4 rounded-lg bg-black/30 p-3 font-mono text-[11px] leading-relaxed">
 <span class="text-purple-400">trace</span> 4f1c2a<br/>
-&nbsp;├─ span <span class="opacity-70">gateway</span><br/>
-&nbsp;│&nbsp;&nbsp;├─ span <span class="opacity-70">auth-svc</span><br/>
-&nbsp;│&nbsp;&nbsp;└─ span <span class="opacity-70">payment-svc</span> ← <span class="text-amber-400">gargalo</span>
+└─ GET /checkout <span class="opacity-50">gateway</span><br/>
+&nbsp;&nbsp;&nbsp;├─ auth.verify <span class="opacity-50">auth</span><br/>
+&nbsp;&nbsp;&nbsp;├─ cart.load <span class="opacity-50">cart</span><br/>
+&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ SELECT <span class="opacity-50">postgres</span><br/>
+&nbsp;&nbsp;&nbsp;├─ payment.charge <span class="opacity-50">payment</span> ← <span class="text-amber-400">gargalo</span><br/>
+&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ POST stripe.api <span class="opacity-50">external</span><br/>
+&nbsp;&nbsp;&nbsp;└─ order.persist <span class="opacity-50">order</span>
 </div>
 
 </div>
 <div>
 
-<div class="text-xs opacity-60 mb-2">Waterfall de um trace (animado):</div>
-<TraceWaterfall />
+<div class="text-xs opacity-60 mb-2">Waterfall completo do trace:</div>
+<TraceWaterfall :frozen="$clicks >= 1" />
 
 <div v-click class="mt-3 text-center text-xs opacity-60">
-A barra mais longa em <span style="color:#e0b400">amarelo</span> revela o gargalo: a chamada externa ao Stripe.
+O span mais longo é o <b style="color:#e0b400">payment.charge</b> (150ms) — e quase todo esse tempo é gasto na chamada externa ao <b>Stripe</b> (120ms), a real causa raiz.
 </div>
 
 </div>
