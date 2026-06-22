@@ -11,8 +11,6 @@ drawings:
 transition: slide-left
 mdc: true
 duration: 35min
-# hash routing evita 404 e duplicação do base path em hosting de subpasta (GitHub Pages)
-routerMode: hash
 ---
 
 # Observabilidade com Grafana
@@ -104,7 +102,7 @@ layoutClass: gap-12
 
 - **Agnóstico de fonte de dados** — conecta em Prometheus, Loki, Tempo, Elastic, SQL, CloudWatch, e +150 datasources.
 
-- **Dashboards** ricos e interativos — uma única tela de vidro ("single pane of glass").
+- **Dashboards** ricos e interativos.
 
 - **Alertas** unificados sobre qualquer fonte de dados.
 
@@ -364,42 +362,6 @@ Stream ao vivo do label <code>{job="checkout-api"}</code>
 </div>
 
 ---
-layout: default
----
-
-# Logs do sistema
-
-<div class="text-sm opacity-70 mb-3">
-Exemplo de saída estruturada (<b>logfmt</b>) que o Loki ingere.
-<span class="text-amber-400">⚠️ Substituir pelos logs reais do sistema.</span>
-</div>
-
-```ansi {all|1|3-4|6|all}
-[2m2026-06-17 09:14:02[0m [34mINFO [0m http: GET /checkout traceID=4f1c2a status=200 dur=312ms
-
-[2m2026-06-17 09:14:03[0m [33mWARN [0m payment: stripe latency high dur=120ms p99_breach=true
-[2m2026-06-17 09:14:03[0m [31mERROR[0m auth: token expired user_id=4410 traceID=9b7e1d
-
-[2m2026-06-17 09:14:04[0m [34mINFO [0m order: persisted order_id=ORD-5567 traceID=4f1c2a
-```
-
-<div v-click>
-
-```sql
-# Quantos erros por minuto, agrupados por serviço?
-sum by (service) (
-  count_over_time({job="checkout-api"} | logfmt | level="ERROR" [1m])
-)
-```
-
-</div>
-
-<!--
-Placeholder dos logs. Quando os logs reais do sistema estiverem disponíveis,
-basta colar aqui dentro do bloco ```ansi``` ou substituir o array SOURCE em components/LogStream.vue.
--->
-
----
 layout: section
 ---
 
@@ -554,7 +516,7 @@ layout: default
 </div>
 
 <div class="mt-8 text-center text-xl">
-🍊 <b>Grafana</b> costura tudo numa <span v-mark.orange="1">única tela de vidro</span>.
+🍊 <b>Grafana</b> costura tudo dentro de <span v-mark.orange="1"> uma única plataforma </span>.
 </div>
 
 <div v-click class="mt-6 text-center opacity-75">
@@ -566,16 +528,57 @@ layout: center
 class: text-center
 ---
 
+# Live Demo 🚀
+
+<div class="text-xl opacity-75 mt-4">Hora de ver o Grafana funcionando de verdade.</div>
+
+<div class="grid grid-cols-3 gap-5 mt-10 text-left">
+  <div class="rounded-xl border border-orange-400/40 bg-orange-400/5 p-5">
+    <div class="i-carbon-chart-line text-3xl text-orange-400 mb-2" />
+    <div class="font-bold">Dashboards</div>
+    <div class="text-sm opacity-75 mt-1">Painéis e métricas em tempo real.</div>
+  </div>
+  <div class="rounded-xl border border-teal-400/40 bg-teal-400/5 p-5">
+    <div class="i-carbon-search text-3xl text-teal-400 mb-2" />
+    <div class="font-bold">Explore</div>
+    <div class="text-sm opacity-75 mt-1">Consultas PromQL e LogQL ao vivo.</div>
+  </div>
+  <div class="rounded-xl border border-purple-400/40 bg-purple-400/5 p-5">
+    <div class="i-carbon-flow text-3xl text-purple-400 mb-2" />
+    <div class="font-bold">Métrica → Log → Trace</div>
+    <div class="text-sm opacity-75 mt-1">Da causa raiz ao detalhe.</div>
+  </div>
+</div>
+
+---
+layout: center
+class: text-center
+---
+
 # Obrigado! 🍊
 
 Perguntas?
 
-<div class="mt-8 flex justify-center gap-6 text-sm opacity-70">
-  <a href="https://grafana.com/docs/" target="_blank">grafana.com/docs</a>
-  <span>·</span>
-  <a href="https://prometheus.io/docs/" target="_blank">prometheus.io</a>
-  <span>·</span>
-  <a href="https://opentelemetry.io/" target="_blank">opentelemetry.io</a>
+<div class="flex justify-center mt-6">
+  <PublicImage name="image.png" class="h-60 rounded-xl shadow-lg" />
+</div>
+
+<div class="mt-8 flex justify-center items-center gap-8">
+  <a href="https://grafana.com/docs/" target="_blank" title="Grafana" class="opacity-80 hover:opacity-100 transition-all hover:scale-110">
+    <SvcIcon name="grafana" class="h-10" />
+  </a>
+  <a href="https://prometheus.io/docs/" target="_blank" title="Prometheus" class="opacity-80 hover:opacity-100 transition-all hover:scale-110">
+    <SvcIcon name="prometheus" class="h-10" />
+  </a>
+  <a href="https://grafana.com/docs/loki/" target="_blank" title="Loki" class="opacity-80 hover:opacity-100 transition-all hover:scale-110">
+    <SvcIcon name="loki" class="h-10" />
+  </a>
+  <a href="https://grafana.com/docs/tempo/" target="_blank" title="Tempo" class="opacity-80 hover:opacity-100 transition-all hover:scale-110">
+    <SvcIcon name="tempo" class="h-10" />
+  </a>
+  <a href="https://grafana.com/docs/mimir/" target="_blank" title="Mimir" class="opacity-80 hover:opacity-100 transition-all hover:scale-110">
+    <SvcIcon name="mimir" class="h-10" />
+  </a>
 </div>
 
 <PoweredBySlidev mt-10 />

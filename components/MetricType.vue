@@ -36,9 +36,9 @@ const buckets = [14, 28, 46, 58, 40, 22, 12]
     <template v-else>
       <rect v-for="(h, i) in buckets" :key="i" :x="8 + i * 27" :y="76 - h" width="20" :height="h"
         rx="2" fill="#3b82f6" fill-opacity="0.45" />
-      <g v-for="(q, i) in [{ x: 70, l: 'p50' }, { x: 122, l: 'p90' }, { x: 160, l: 'p99' }]" :key="i">
-        <line :x1="q.x" y1="6" :x2="q.x" y2="76" stroke="#3b82f6" stroke-width="2" stroke-dasharray="3 2" />
-        <text :x="q.x + 2" y="14" fill="#93c5fd" font-size="9" font-family="monospace">{{ q.l }}</text>
+      <g v-for="(q, i) in [{ x: 99, l: 'p50' }, { x: 145, l: 'p90' }, { x: 176, l: 'p99' }]" :key="i">
+        <line :x1="q.x" y1="10" :x2="q.x" y2="76" stroke="#3b82f6" stroke-width="1.2" stroke-dasharray="2.5 2" />
+        <text :x="q.x" y="7" fill="#93c5fd" font-family="monospace" text-anchor="middle" style="font-size: 6px">{{ q.l }}</text>
       </g>
     </template>
   </svg>
